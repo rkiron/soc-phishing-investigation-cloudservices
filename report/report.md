@@ -2,13 +2,13 @@
 
 > **Source note:** This report analyzes a real, captured phishing email sourced from [PhishingPot](https://github.com/rf-peixoto/phishing_pot), an open-source repository of real-world phishing samples. The investigation below is independent original work.
 
----
+
 
 # 1. Executive Summary
 
 On 16 April 2026, a phishing email impersonating "Cloud Services" was received, threatening data deletion to pressure the recipient into clicking a fake account-recovery link. This has been confirmed as a **true-positive phishing attempt**: email authentication (SPF/DKIM/DMARC) fails, the sender domain is spoofed, and both the sending and hosting infrastructure trace to ASN AS60781 (LeaseWeb Netherlands), which has an extensive history of hosting phishing and malware campaigns. A file hash tied to related infrastructure also correlates with a CISA advisory (AA26-204a) on Russian state-linked phishing activity, though this should be treated as a moderate-confidence lead rather than confirmed attribution. **Action taken:** sender and hosting IPs blocked at the perimeter; further recommendations are detailed in Section 12.
 
----
+
 
 # 2. Incident Overview
 
@@ -21,7 +21,7 @@ On 16 April 2026, a phishing email impersonating "Cloud Services" was received, 
 ![Fig 2.1 – Phishing email as received](../images/fig-2.1-phishing-email-received.png)
 *Fig 2.1 – Phishing email as received*
 
----
+
 
 # 3. Initial Triage - Visual & Content Indicators
 
@@ -38,7 +38,7 @@ The final psychological lever is the "RECOVER MY ACCOUNT NOW" button, which driv
 
 > This visual and content review alone is a strong initial indicator of phishing. The remainder of the investigation validates this and determines whether escalation is warranted.
 
----
+
 
 # 4. Sender Verification
 
@@ -52,7 +52,7 @@ Searching the address and company name cited in the footer ("Cloud Services", 12
 
 The address is a commonly reused placeholder/template address, and unrelated companies ("CloudOrcus", "Cloudcentric") appear at the same location — confirming "Cloud Services" is not a legitimate entity.
 
----
+
 
 # 5. Email Header Analysis
 
@@ -90,7 +90,7 @@ The `.onmicrosoft.com` suffix is a fallback domain assigned to any organization/
 
 Critically, `62.212.79.196` fails the SPF check for `terbsx.onmicrosoft.com` — it is not a permitted sender for that domain. On its own this is inconclusive, so infrastructure-level threat intelligence was used to build further confidence (Section 6).
 
----
+
 
 # 6. Infrastructure & Threat Intelligence Analysis
 
@@ -174,7 +174,7 @@ Source: [DarkTrace – Atomic Stealer: Investigation of a Growing macOS Threat](
 
 **Containment action taken at this stage:** Based on the evidence gathered above, the sender IP and hosting infrastructure were blocked immediately (inbound and outbound) pending completion of the full investigation. Full recommendations are consolidated in Section 12.
 
----
+
 
 # 7. Email Body & URL Analysis
 
@@ -208,7 +208,7 @@ The host string `013764637242` does not resolve directly to the sender IP under 
 
 No threat intelligence platform returned direct hits on the obfuscated URLs themselves. Submitting them for resolution identified the underlying host as **95.211.62.162** — the key pivot point, as this is the actual IP hosting the phishing website (analyzed in Section 6.3).
 
----
+
 
 # 8. URL Sandbox / Dynamic Analysis
 
@@ -273,7 +273,7 @@ Reviewing other domains previously hosted on IP `95.211.62.162`, one related dom
 ![Fig 8.9 – Resource hash details for the returned GIF](../images/fig-8.9-resource-hash-details-gif.png)
 *Fig 8.9 – Resource hash details for the returned GIF*
 
----
+
 
 # 9. Threat Attribution
 
@@ -292,7 +292,7 @@ Source: [CISA Advisory AA26-204a – Russian State-Supported Cyber Actors Conduc
 
 > **Confidence note:** This should be treated as a **moderate-confidence correlation**, not confirmed attribution. A single shared hash on shared infrastructure is a meaningful lead but is not, by itself, sufficient to confirm this specific campaign was operated by a state-sponsored actor. Further overlap in TTPs or additional shared IOCs would be needed to raise confidence.
 
----
+
 
 # 10. MITRE ATT&CK Mapping
 
@@ -304,7 +304,7 @@ Source: [CISA Advisory AA26-204a – Russian State-Supported Cyber Actors Conduc
 | T1204.001    | User Execution: Malicious Link                  | "RECOVER MY ACCOUNT NOW" CTA relies on user click                         |
 | T1090        | Proxy / Redirect Infrastructure                 | Multi-hop redirect chain observed in urlscan.io HTTP transaction analysis |
 
----
+
 
 # 11. Indicators of Compromise (IOC Summary)
 
@@ -320,7 +320,7 @@ Source: [CISA Advisory AA26-204a – Russian State-Supported Cyber Actors Conduc
 | File hash (SHA-256) | `ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629` | Retrieved from related infra on same ASN; matches CISA advisory AA26-204a (Russian state-sponsored phishing) |
 | Tracking pixel path pattern | `/track/<random-token>` on host `013764637242` | Used for open/click tracking in email body |
 
----
+
 
 # 12. Conclusion & Recommendations
 

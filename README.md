@@ -7,7 +7,6 @@
  [**Read the full investigation report →**](report/report.md)
  [Machine-readable IOC list (CSV) →](iocs/iocs.csv)
 
----
 
 ## Executive Summary
 
