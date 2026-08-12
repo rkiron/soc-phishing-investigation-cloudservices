@@ -18,7 +18,7 @@ On 16 April 2026, a phishing email impersonating "Cloud Services" was received, 
 - **Lure type:** Fake storage/subscription payment-failure notice threatening permanent deletion of photos, backups, and shared work documents
 - **Call to action:** "RECOVER MY ACCOUNT NOW" button
 
-![Fig 2.1 – Phishing email as received](fig-2.1-phishing-email-received.png)
+![Fig 2.1 – Phishing email as received](../images/fig-2.1-phishing-email-received.png)
 *Fig 2.1 – Phishing email as received*
 
 ---
@@ -31,7 +31,7 @@ At first look, several social-engineering indicators stand out:
 - Pseudo-legitimizing details such as a ticket reference ("OFU-104676") and a specific risk statistic ("42.5 GB") intended to make the notice feel authentic.
 - A footer citing a company headquarters address, intended to add further legitimacy.
 
-![Fig 3.1 – Footer in the phishing email](fig-3.1-phishing-email-footer.png)
+![Fig 3.1 – Footer in the phishing email](../images/fig-3.1-phishing-email-footer.png)
 *Fig 3.1 – Footer in the phishing email*
 
 The final psychological lever is the "RECOVER MY ACCOUNT NOW" button, which drives the recipient toward the malicious link under the same sense of urgency.
@@ -44,10 +44,10 @@ The final psychological lever is the "RECOVER MY ACCOUNT NOW" button, which driv
 
 Searching the address and company name cited in the footer ("Cloud Services", 123 Cloud Lane, San Francisco, CA 94105) returns no legitimate, recognized company matching that combination.
 
-![Fig 4.1 – Google search results for the footer address](fig-4.1-google-search-footer-address.png)
+![Fig 4.1 – Google search results for the footer address](../images/fig-4.1-google-search-footer-address.png)
 *Fig 4.1 – Google search results for the footer address*
 
-![Fig 4.2 – Other companies ("CloudOrcus", "Cloudcentric") sharing the same placeholder address](fig-4.2-placeholder-address-other-companies.png)
+![Fig 4.2 – Other companies ("CloudOrcus", "Cloudcentric") sharing the same placeholder address](../images/fig-4.2-placeholder-address-other-companies.png)
 *Fig 4.2 – Other companies ("CloudOrcus", "Cloudcentric") sharing the same placeholder address*
 
 The address is a commonly reused placeholder/template address, and unrelated companies ("CloudOrcus", "Cloudcentric") appear at the same location — confirming "Cloud Services" is not a legitimate entity.
@@ -69,7 +69,7 @@ Transit time: started Thu, 16 Apr 2026 11:42:54 +0000, ended 11:42:56 +0000 (2 s
 
 ## 5.2 Authentication Results
 
-![Fig 5.1 – Authentication results for sender IP 62.212.79.196](fig-5.1-spf-dkim-dmarc-auth-results.png)
+![Fig 5.1 – Authentication results for sender IP 62.212.79.196](../images/fig-5.1-spf-dkim-dmarc-auth-results.png)
 *Fig 5.1 – Authentication results for sender IP 62.212.79.196*
 
 - **SPF:** Fail
@@ -104,28 +104,28 @@ ASN:          AS60781 (Netherlands)
 
 The IP was not flagged as malicious by VirusTotal, Cisco Talos, AlienVault OTX, or Spamhaus. However, AbuseIPDB shows **6 prior reports**, several referencing similar phishing campaigns — reinforcing that this IP has a documented history of phishing activity despite a 0% aggregate abuse confidence score.
 
-![Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)](fig-6.1-abuseipdb-reports-sender-ip.png)
+![Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)](../images/fig-6.1-abuseipdb-reports-sender-ip.png)
 *Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)
 
 ## 6.2 Passive DNS & Associated Domains
 
-![Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)](fig-6.2-passive-dns-sender-ip.png)
+![Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)](../images/fig-6.2-passive-dns-sender-ip.png)
 *Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)*
 
 This IP has resolved to 13 domains historically, the majority following a pattern of randomized subdomains hosting resources at long, randomly-named paths — consistent with the URL structure observed in this campaign.
 
 
-![Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)](fig-6.3-associated-urls-sender-ip.png)
+![Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)](../images/fig-6.3-associated-urls-sender-ip.png)
 *Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)*
 
 This pattern aligns with the abuse records above and confirms many of these domains were used in prior phishing campaigns.
 
 ## 6.3 Hosting ASN Analysis (AS60781)
 
-![Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)](fig-6.4-passive-dns-hosting-ip.png)
+![Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)](../images/fig-6.4-passive-dns-hosting-ip.png)
 *Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)*
 
-![Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)](fig-6.5-otx-associated-urls-hosting-ip.png)
+![Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)](../images/fig-6.5-otx-associated-urls-hosting-ip.png)
 *Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)
 
 These URLs (highlighted) follow the same randomized-token path pattern seen in the current campaign, scanned repeatedly over time — including multiple distinct tokens against the same host scanned on the same day (1 March 2026), indicating active, ongoing abuse rather than a one-off incident.
@@ -142,32 +142,32 @@ This places the phishing-hosting IP on the **same ASN** as the original sending 
 
 AbuseIPDB shows AS60781 controls 274 IP blocks, many recently reported for abuse — including the two ranges in this investigation, reported 1 week and 10 hours prior to this analysis respectively.
 
-![Fig 6.6 – Malware sites and average takedown time linked to AS60781](fig-6.6-urlhaus-malware-sites-as60781.png)
+![Fig 6.6 – Malware sites and average takedown time linked to AS60781](../images/fig-6.6-urlhaus-malware-sites-as60781.png)
 *Fig 6.6 – Malware sites and average takedown time linked to AS60781*
 
 A large number of malware sites have been hosted on this ASN, with an **average takedown time of over 8 days** — a poor abuse-desk response rate. Activity remains current, with the most recent detection dated 7 August 2026.
 
-![Fig 6.7 – Domains and IPs associated with malware URLs on AS60781](fig-6.7-malware-urls-as60781.png)
+![Fig 6.7 – Domains and IPs associated with malware URLs on AS60781](../images/fig-6.7-malware-urls-as60781.png)
 *Fig 6.7 – Domains and IPs associated with malware URLs on AS60781*
 
 ## 6.4 Known Malware Families & IOC History
 
-![Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)](fig-6.8-threatfox-ioc-volume-malware-families.png)
+![Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)](../images/fig-6.8-threatfox-ioc-volume-malware-families.png)
 *Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)*
 
 Malware families hosted on this ASN include **Qakbot, Vidar, Remcos RAT, Mirai, AsyncRAT, and RedLine Stealer**, among others.
 
 
-![Fig 6.9 (1/4) – Recent IOCs associated with AS60781](fig-6.9a-recent-iocs-as60781.png)
-![Fig 6.9 (2/4) – Recent IOCs associated with AS60781](fig-6.9b-recent-iocs-as60781.png)
-![Fig 6.9 (3/4) – Recent IOCs associated with AS60781](fig-6.9c-recent-iocs-as60781.png)
-![Fig 6.9 (4/4) – Recent IOCs associated with AS60781](fig-6.9d-recent-iocs-as60781.png)
+![Fig 6.9 (1/4) – Recent IOCs associated with AS60781](../images/fig-6.9a-recent-iocs-as60781.png)
+![Fig 6.9 (2/4) – Recent IOCs associated with AS60781](../images/fig-6.9b-recent-iocs-as60781.png)
+![Fig 6.9 (3/4) – Recent IOCs associated with AS60781](../images/fig-6.9c-recent-iocs-as60781.png)
+![Fig 6.9 (4/4) – Recent IOCs associated with AS60781](../images/fig-6.9d-recent-iocs-as60781.png)
 *Fig 6.9 – Recent IOCs associated with AS60781 (representative entries; ClickFix appears repeatedly across the dataset)*
 
 
 This confirms AS60781 is heavily used for malware distribution and phishing campaigns. Additionally, this ASN has been linked in third-party reporting to **Atomic Stealer**, a significant emerging macOS infostealer/backdoor threat that leverages the **ClickFix** technique — a technique also tagged repeatedly across the IOCs above, further reinforcing the connection.
 
-![Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique](fig-6.10-darktrace-atomic-stealer-report.png)
+![Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique](../images/fig-6.10-darktrace-atomic-stealer-report.png)
 *Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique*
 
 Source: [DarkTrace – Atomic Stealer: Investigation of a Growing macOS Threat](https://www.darktrace.com/blog/atomic-stealer-darktraces-investigation-of-a-growing-macos-threat)
@@ -216,7 +216,7 @@ No threat intelligence platform returned direct hits on the obfuscated URLs them
 
 Using urlscan.io, the site behind the "RECOVER ACCOUNT" link (and the other two link paths, which all resolved to the same content) was browsed in a sandboxed environment.
 
-![Fig 8.1 – Effective URL, redirect chain, and HTTP transactions](fig-8.1-urlscan-redirect-chain-http-transactions.png)
+![Fig 8.1 – Effective URL, redirect chain, and HTTP transactions](../images/fig-8.1-urlscan-redirect-chain-http-transactions.png)
 *Fig 8.1 – Effective URL, redirect chain, and HTTP transactions*
 
 Key observations:
@@ -226,10 +226,10 @@ Key observations:
 
 ## 8.2 Redirect Chain Behavior
 
-![Fig 8.2 – First request](fig-8.2-first-request.png)
+![Fig 8.2 – First request](../images/fig-8.2-first-request.png)
 *Fig 8.2 – First request*
 
-![Fig 8.3 – Response to the first request](fig-8.3-response-to-first-request.png)
+![Fig 8.3 – Response to the first request](../images/fig-8.3-response-to-first-request.png)
 *Fig 8.3 – Response to the first request*
 
 The first request — `http://95.211.62.162/4yFfnw17581FgUk421oayiyuovxk80HZUEWAMIRKRZVQY285239TCTQ431794Z8` — triggers a redirect chain that ultimately loads a script rewriting the URL to:
@@ -237,17 +237,17 @@ The first request — `http://95.211.62.162/4yFfnw17581FgUk421oayiyuovxk80HZUEWA
 http://95.211.62.162/news?q=This%20link%20is%20not%20allowed%20to%20be%20clicked!%20/4yFfnw17581FgUk421oayiyuovxk80HZUEWAMIRKRZVQY285239TCTQ4317...
 ```
 
-![Fig 8.4 – Third request](fig-8.4-third-request.png)
+![Fig 8.4 – Third request](../images/fig-8.4-third-request.png)
 *Fig 8.4 – Third request*
 
 The response is an HTML document containing JavaScript:
 
-![Fig 8.5 – JavaScript returned in the third response](fig-8.5-javascript-third-response.png)
+![Fig 8.5 – JavaScript returned in the third response](../images/fig-8.5-javascript-third-response.png)
 *Fig 8.5 – JavaScript returned in the third response*
 
 This script fetches an RSS feed, parses it, and renders each item as an HTML element — explaining why the site currently displays a benign news feed rather than a credential-harvesting page.
 
-![Fig 8.6 – Fourth request](fig-8.6-fourth-request.png)
+![Fig 8.6 – Fourth request](../images/fig-8.6-fourth-request.png)
 *Fig 8.6 – Fourth request*
 
 The feed URL (`https://feeds.foxnews.com/foxnews/world`) redirects to `https://moxie.foxnews.com/google-publisher/world.xml`, which returns the XML rendered on the page. Historical scans of the same resource around the time the email was sent show the same news-feed content — no earlier credential-harvesting page was recovered.
@@ -264,13 +264,13 @@ This hash does **not** indicate a favicon file existing with zero bytes, nor tha
 
 Reviewing other domains previously hosted on IP `95.211.62.162`, one related domain — `sakuratempestas.click` — was found to request a suspicious image/png resource via the same randomized-token URL pattern.
 
-![Fig 8.7 – Request sent to the suspicious resource path](fig-8.7-sakuratempestas-suspicious-resource-request.png)
+![Fig 8.7 – Request sent to the suspicious resource path](../images/fig-8.7-sakuratempestas-suspicious-resource-request.png)
 *Fig 8.7 – Request sent to the suspicious resource path*
 
-![Fig 8.8 – GIF returned in response](fig-8.8-gif-returned-in-response.png)
+![Fig 8.8 – GIF returned in response](../images/fig-8.8-gif-returned-in-response.png)
 *Fig 8.8 – GIF returned in response*
 
-![Fig 8.9 – Resource hash details for the returned GIF](fig-8.9-resource-hash-details-gif.png)
+![Fig 8.9 – Resource hash details for the returned GIF](../images/fig-8.9-resource-hash-details-gif.png)
 *Fig 8.9 – Resource hash details for the returned GIF*
 
 ---
@@ -283,7 +283,7 @@ ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629
 ```
 — was searched against public sources and returned multiple hits from **CISA** and the **U.S. Department of War**, associating it with a known **APT (Advanced Persistent Threat) group**.
 
-![Fig 9.1 – Search results linking the hash to a CISA cybersecurity advisory](fig-9.1-cisa-advisory-hash-search-results.png)
+![Fig 9.1 – Search results linking the hash to a CISA cybersecurity advisory](../images/fig-9.1-cisa-advisory-hash-search-results.png)
 *Fig 9.1 – Search results linking the hash to a CISA cybersecurity advisory*
 
 CISA associates this indicator with phishing campaigns conducted by **Russian state-supported cyber actors**, reinforcing the assessment that this ASN/infrastructure is used to host coordinated phishing campaigns.
