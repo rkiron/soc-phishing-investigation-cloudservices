@@ -19,17 +19,17 @@ An email impersonating "Cloud Services" threatened permanent deletion of photos,
 
 ## Investigation Approach
 
-| Stage                                | What I did                                                                                                                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **1. Visual/content triage**         | Identified social engineering tactics: urgency language, fake ticket references, spoofed footer address                                     |
-| **2. Sender verification**           | Confirmed the sender company/address didn't correspond to any real entity                                                                   |
-| **3. Header analysis**               | Reconstructed mail path, confirmed SPF/DKIM/DMARC failure and domain spoofing                                                               |
-| **4. Infrastructure & threat intel** | Pivoted on sender IP → ASN → passive DNS → related domains and malware families (VirusTotal, AbuseIPDB, ThreatFox, URLhaus, AlienVault OTX) |
-| **5. URL/body analysis**             | Decoded the obfuscated link structure and traced it to the actual phishing hosting IP                                                       |
-| **6. Sandbox detonation**            | Ran the live link through urlscan.io to observe real HTTP behavior and redirect logic                                                       |
-| **7. Attribution**                   | Correlated a resource hash to a CISA advisory, explicitly caveated as moderate confidence                                                   |
-| **8. MITRE ATT&CK mapping**          | Mapped observed behavior to five ATT&CK techniques                                                                                          |
-| **9. Recommendations**               | Delivered concrete containment and user-awareness actions                                                                                   |
+| Stage                                 | What I did                                                                                                                                  |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1. Visual/content triage**          | Identified social engineering tactics: urgency language, fake ticket references, spoofed footer address                                     |
+| **2. Sender verification**            | Confirmed the sender company/address didn't correspond to any real entity                                                                   |
+| **3. Header analysis**                | Reconstructed mail path, confirmed SPF/DKIM/DMARC failure and domain spoofing                                                               |
+| **4.URL/body analysis**               | Decoded the obfuscated link structure and traced it to the actual phishing hosting IP                                                       |
+| **5. Infrastructure & threat intel ** | Pivoted on sender IP → ASN → passive DNS → related domains and malware families (VirusTotal, AbuseIPDB, ThreatFox, URLhaus, AlienVault OTX) |
+| **6. Sandbox detonation**             | Ran the live link through urlscan.io to observe real HTTP behavior and redirect logic                                                       |
+| **7. Attribution**                    | Correlated a resource hash to a CISA advisory, explicitly caveated as moderate confidence                                                   |
+| **8. MITRE ATT&CK mapping**           | Mapped observed behavior to five ATT&CK techniques                                                                                          |
+| **9. Recommendations**                | Delivered concrete containment and user-awareness actions                                                                                   |
 
 ## Key Findings
 
