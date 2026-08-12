@@ -88,97 +88,13 @@ Return-Path: t0u2va7hed@terbsx.onmicrosoft.com
 
 The `.onmicrosoft.com` suffix is a fallback domain assigned to any organization/user registered with Microsoft 365; `terbsx` is the tenant's unique identifier. No useful leads were found correlating this tenant identifier to a known identity, so the sender's exact identity cannot be established through this domain alone.
 
-Critically, `62.212.79.196` fails the SPF check for `terbsx.onmicrosoft.com` — it is not a permitted sender for that domain. On its own this is inconclusive, so infrastructure-level threat intelligence was used to build further confidence (Section 6).
+Critically, `62.212.79.196` fails the SPF check for `terbsx.onmicrosoft.com` — it is not a permitted sender for that domain. On its own this is inconclusive, so infrastructure-level threat intelligence was used to build further confidence (Section 7).
 
 
 
-# 6. Infrastructure & Threat Intelligence Analysis
+# 6. Email Body & URL Analysis
 
-## 6.1 Sender IP Reputation (62.212.79.196)
-
-```
-Range:        62.212.79.128 – 62.212.79.255 (netname: LEASEWEB)
-Controlled by: LeaseWeb Netherlands B.V.
-ASN:          AS60781 (Netherlands)
-```
-
-The IP was not flagged as malicious by VirusTotal, Cisco Talos, AlienVault OTX, or Spamhaus. However, AbuseIPDB shows **6 prior reports**, several referencing similar phishing campaigns — reinforcing that this IP has a documented history of phishing activity despite a 0% aggregate abuse confidence score.
-
-![Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)](../images/fig-6.1-abuseipdb-reports-sender-ip.png)
-*Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)
-
-## 6.2 Passive DNS & Associated Domains
-
-![Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)](../images/fig-6.2-passive-dns-sender-ip.png)
-*Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)*
-
-This IP has resolved to 13 domains historically, the majority following a pattern of randomized subdomains hosting resources at long, randomly-named paths — consistent with the URL structure observed in this campaign.
-
-
-![Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)](../images/fig-6.3-associated-urls-sender-ip.png)
-*Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)*
-
-This pattern aligns with the abuse records above and confirms many of these domains were used in prior phishing campaigns.
-
-## 6.3 Hosting ASN Analysis (AS60781)
-
-![Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)](../images/fig-6.4-passive-dns-hosting-ip.png)
-*Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)*
-
-![Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)](../images/fig-6.5-otx-associated-urls-hosting-ip.png)
-*Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)
-
-These URLs (highlighted) follow the same randomized-token path pattern seen in the current campaign, scanned repeatedly over time — including multiple distinct tokens against the same host scanned on the same day (1 March 2026), indicating active, ongoing abuse rather than a one-off incident.
-
-**WHOIS:**
-```
-CIDR:          95.211.62.0/23
-Net Name:      LEASEWEB-CLOUD-EXPRESS-2
-Controlled by: LeaseWeb Netherlands B.V. (MNT: LEASEWEB-NL-MNT)
-Route:         95.211.0.0/16 (AS60781)
-```
-
-This places the phishing-hosting IP on the **same ASN** as the original sending IP, strengthening the link between sender and hosting infrastructure.
-
-AbuseIPDB shows AS60781 controls 274 IP blocks, many recently reported for abuse — including the two ranges in this investigation, reported 1 week and 10 hours prior to this analysis respectively.
-
-![Fig 6.6 – Malware sites and average takedown time linked to AS60781](../images/fig-6.6-urlhaus-malware-sites-as60781.png)
-*Fig 6.6 – Malware sites and average takedown time linked to AS60781*
-
-A large number of malware sites have been hosted on this ASN, with an **average takedown time of over 8 days** — a poor abuse-desk response rate. Activity remains current, with the most recent detection dated 7 August 2026.
-
-![Fig 6.7 – Domains and IPs associated with malware URLs on AS60781](../images/fig-6.7-malware-urls-as60781.png)
-*Fig 6.7 – Domains and IPs associated with malware URLs on AS60781*
-
-## 6.4 Known Malware Families & IOC History
-
-![Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)](../images/fig-6.8-threatfox-ioc-volume-malware-families.png)
-*Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)*
-
-Malware families hosted on this ASN include **Qakbot, Vidar, Remcos RAT, Mirai, AsyncRAT, and RedLine Stealer**, among others.
-
-
-![Fig 6.9 (1/4) – Recent IOCs associated with AS60781](../images/fig-6.9a-recent-iocs-as60781.png)
-![Fig 6.9 (2/4) – Recent IOCs associated with AS60781](../images/fig-6.9b-recent-iocs-as60781.png)
-![Fig 6.9 (3/4) – Recent IOCs associated with AS60781](../images/fig-6.9c-recent-iocs-as60781.png)
-![Fig 6.9 (4/4) – Recent IOCs associated with AS60781](../images/fig-6.9d-recent-iocs-as60781.png)
-*Fig 6.9 – Recent IOCs associated with AS60781 (representative entries; ClickFix appears repeatedly across the dataset)*
-
-
-This confirms AS60781 is heavily used for malware distribution and phishing campaigns. Additionally, this ASN has been linked in third-party reporting to **Atomic Stealer**, a significant emerging macOS infostealer/backdoor threat that leverages the **ClickFix** technique — a technique also tagged repeatedly across the IOCs above, further reinforcing the connection.
-
-![Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique](../images/fig-6.10-darktrace-atomic-stealer-report.png)
-*Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique*
-
-Source: [DarkTrace – Atomic Stealer: Investigation of a Growing macOS Threat](https://www.darktrace.com/blog/atomic-stealer-darktraces-investigation-of-a-growing-macos-threat)
-
-**Containment action taken at this stage:** Based on the evidence gathered above, the sender IP and hosting infrastructure were blocked immediately (inbound and outbound) pending completion of the full investigation. Full recommendations are consolidated in Section 12.
-
-
-
-# 7. Email Body & URL Analysis
-
-## 7.1 Tracking Pixel & Link Structure
+## 6.1 Tracking Pixel & Link Structure
 
 Initial observations from the email body:
 
@@ -204,9 +120,93 @@ href="http://013764637242/5uKWDG17581BIIS421uimflhazzr80NSYILASVYLGPSOI285239CIX
 
 The host string `013764637242` does not resolve directly to the sender IP under common numeral-base conversions (hex, octal, decimal); it is a machine-generated obfuscation token rather than an encoded IP.
 
-## 7.2 Resolved Hosting Infrastructure
+## 6.2 Resolved Hosting Infrastructure
 
-No threat intelligence platform returned direct hits on the obfuscated URLs themselves. Submitting them for resolution identified the underlying host as **95.211.62.162** — the key pivot point, as this is the actual IP hosting the phishing website (analyzed in Section 6.3).
+No threat intelligence platform returned direct hits on the obfuscated URLs themselves. Submitting them for resolution identified the underlying host as **95.211.62.162** — the key pivot point, as this is the actual IP hosting the phishing website (analyzed in Section 7.3).
+
+
+
+# 7. Infrastructure & Threat Intelligence Analysis
+
+## 7.1 Sender IP Reputation (62.212.79.196)
+
+```
+Range:        62.212.79.128 – 62.212.79.255 (netname: LEASEWEB)
+Controlled by: LeaseWeb Netherlands B.V.
+ASN:          AS60781 (Netherlands)
+```
+
+The IP was not flagged as malicious by VirusTotal, Cisco Talos, AlienVault OTX, or Spamhaus. However, AbuseIPDB shows **6 prior reports**, several referencing similar phishing campaigns — reinforcing that this IP has a documented history of phishing activity despite a 0% aggregate abuse confidence score.
+
+![Fig 6.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)](../images/fig-6.1-abuseipdb-reports-sender-ip.png)
+*Fig 7.1 – IP abuse reports for 62.212.79.196 (6 reports from 3 sources; representative Phishing and Email Spam entries shown)
+
+## 7.2 Passive DNS & Associated Domains
+
+![Fig 6.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)](../images/fig-6.2-passive-dns-sender-ip.png)
+*Fig 7.2 – Passive DNS resolutions for 62.212.79.196 (representative entries; IP resolved to 13 domains total, following a randomized-subdomain pattern)*
+
+This IP has resolved to 13 domains historically, the majority following a pattern of randomized subdomains hosting resources at long, randomly-named paths — consistent with the URL structure observed in this campaign.
+
+
+![Fig 6.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)](../images/fig-6.3-associated-urls-sender-ip.png)
+*Fig 7.3 – URLs associated with the identified domains and IP(representative entries showing the recurring randomized-path pattern)*
+
+This pattern aligns with the abuse records above and confirms many of these domains were used in prior phishing campaigns.
+
+## 7.3 Hosting ASN Analysis (AS60781)
+
+![Fig 6.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)](../images/fig-6.4-passive-dns-hosting-ip.png)
+*Fig 7.4 – Passive DNS records for hosting IP 95.211.62.162 (representative entries; VirusTotal, 56 total records)*
+
+![Fig 6.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)](../images/fig-6.5-otx-associated-urls-hosting-ip.png)
+*Fig 7.5 – Historically associated URLs for 95.211.62.162 (representative entries; AlienVault OTX, 232 total records)
+
+These URLs (highlighted) follow the same randomized-token path pattern seen in the current campaign, scanned repeatedly over time — including multiple distinct tokens against the same host scanned on the same day (1 March 2026), indicating active, ongoing abuse rather than a one-off incident.
+
+**WHOIS:**
+```
+CIDR:          95.211.62.0/23
+Net Name:      LEASEWEB-CLOUD-EXPRESS-2
+Controlled by: LeaseWeb Netherlands B.V. (MNT: LEASEWEB-NL-MNT)
+Route:         95.211.0.0/16 (AS60781)
+```
+
+This places the phishing-hosting IP on the **same ASN** as the original sending IP, strengthening the link between sender and hosting infrastructure.
+
+AbuseIPDB shows AS60781 controls 274 IP blocks, many recently reported for abuse — including the two ranges in this investigation, reported 1 week and 10 hours prior to this analysis respectively.
+
+![Fig 6.6 – Malware sites and average takedown time linked to AS60781](../images/fig-6.6-urlhaus-malware-sites-as60781.png)
+*Fig 7.6 – Malware sites and average takedown time linked to AS60781*
+
+A large number of malware sites have been hosted on this ASN, with an **average takedown time of over 8 days** — a poor abuse-desk response rate. Activity remains current, with the most recent detection dated 7 August 2026.
+
+![Fig 6.7 – Domains and IPs associated with malware URLs on AS60781](../images/fig-6.7-malware-urls-as60781.png)
+*Fig 7.7 – Domains and IPs associated with malware URLs on AS60781*
+
+## 7.4 Known Malware Families & IOC History
+
+![Fig 6.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)](../images/fig-6.8-threatfox-ioc-volume-malware-families.png)
+*Fig 7.8 – IOC volume over time and malware families linked to AS60781 (ThreatFox)*
+
+Malware families hosted on this ASN include **Qakbot, Vidar, Remcos RAT, Mirai, AsyncRAT, and RedLine Stealer**, among others.
+
+
+![Fig 6.9 (1/4) – Recent IOCs associated with AS60781](../images/fig-6.9a-recent-iocs-as60781.png)
+![Fig 6.9 (2/4) – Recent IOCs associated with AS60781](../images/fig-6.9b-recent-iocs-as60781.png)
+![Fig 6.9 (3/4) – Recent IOCs associated with AS60781](../images/fig-6.9c-recent-iocs-as60781.png)
+![Fig 6.9 (4/4) – Recent IOCs associated with AS60781](../images/fig-6.9d-recent-iocs-as60781.png)
+*Fig 7.9 – Recent IOCs associated with AS60781 (representative entries; ClickFix appears repeatedly across the dataset)*
+
+
+This confirms AS60781 is heavily used for malware distribution and phishing campaigns. Additionally, this ASN has been linked in third-party reporting to **Atomic Stealer**, a significant emerging macOS infostealer/backdoor threat that leverages the **ClickFix** technique — a technique also tagged repeatedly across the IOCs above, further reinforcing the connection.
+
+![Fig 6.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique](../images/fig-6.10-darktrace-atomic-stealer-report.png)
+*Fig 7.10 – DarkTrace report on Atomic Stealer and its use of the ClickFix technique*
+
+Source: [DarkTrace – Atomic Stealer: Investigation of a Growing macOS Threat](https://www.darktrace.com/blog/atomic-stealer-darktraces-investigation-of-a-growing-macos-threat)
+
+**Containment action taken at this stage:** Based on the evidence gathered above, the sender IP and hosting infrastructure were blocked immediately (inbound and outbound) pending completion of the full investigation. Full recommendations are consolidated in Section 12.
 
 
 
