@@ -1,0 +1,11 @@
+type,indicator,context,confidence,first_seen,source_section
+sender_ip,62.212.79.196,"SPF fail; AS60781; 6 prior AbuseIPDB phishing/spam reports",high,2026-04-16,Section 5-6
+sender_domain_envelope,terbsx.onmicrosoft.com,"smtp.mailfrom and Return-Path domain; Microsoft 365 fallback tenant domain",high,2026-04-16,Section 5
+sender_domain_display,CloudServicesi7t.com,"Spoofed From: header display domain; no matching legitimate company found",high,2026-04-16,Section 3-4
+phishing_hosting_ip,95.211.62.162,"Resolves from obfuscated numeric host string used in all email body links; LEASEWEB-CLOUD-EXPRESS-2",high,2026-04-16,Section 6.3-7.2
+obfuscated_host_string,013764637242,"Encoded reference to 95.211.62.162; used across tracking pixel, CTA button, and footer links",high,2026-04-16,Section 7.1
+hosting_asn,AS60781,"LEASEWEB-NL-AMS-01; hosts both sender IP and phishing IP; linked to Qakbot, Cobalt Strike, Remcos RAT, AsyncRAT, RedLine Stealer, Mirai; 274 IP blocks, avg malware takedown time 8+ days",high,,Section 6.3-6.4
+related_domain,sakuratempestas.click,"Same randomized-token URL pattern on same ASN; served suspicious image/png resource",medium,,Section 8.4
+file_hash_sha256,ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629,"Retrieved from related infra on same ASN; correlates with CISA Advisory AA26-204a (Russian state-supported phishing)",medium,,Section 8.4-9
+url_pattern,http://013764637242/track/<random-token>,"Tracking pixel path pattern used for email open/click tracking",high,2026-04-16,Section 7.1
+url_pattern,http://95.211.62.162/<random-token>,"Phishing redirect chain entry point (RECOVER ACCOUNT / footer links)",high,2026-04-16,Section 8.1-8.2
