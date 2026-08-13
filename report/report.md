@@ -1,4 +1,4 @@
-[← Back to README](README.md)
+[← Back to README](../README.md)
 
 > **Source note:** This report analyzes a real, captured phishing email sourced from [PhishingPot](https://github.com/rf-peixoto/phishing_pot), an open-source repository of real-world phishing samples. The investigation below is independent original work.
 
